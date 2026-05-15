@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="manifest" href="/manifest.webmanifest">
+    <meta name="theme-color" content="#c2185b">
+    <link rel="apple-touch-icon" href="/static/icons/icon-192.svg">
+    <title>Basic Laws for Women</title>
+    <style>
+        :root {
+            --primary-purple: #6200EE;
+            --bg-accent: #E0E0FF;
+            --text-grey: #757575;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #ffffff;
+            min-height: 100vh;
+            padding-bottom: 20px;
+        }
+
+        .header-accent {
+            position: absolute;
+            top: -60px;
+            left: -60px;
+            width: 250px;
+            height: 250px;
+            background-color: var(--bg-accent);
+            border-radius: 50%;
+            z-index: -1;
+        }
+
+        .logo-container {
+            margin-top: 60px;
+            width: 150px;
+            height: 150px;
+            border: 2px solid #D1919B; /* Matching the logo border */
+            border-radius: 50%;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .logo-container img {
+            width: 80%;
+            height: auto;
+        }
+
+        h2 {
+            color: var(--text-grey);
+            font-size: 1.2rem;
+            margin: 30px 0;
+        }
+
+        .laws-list {
+            width: 85%;
+            max-width: 400px;
+            list-style: none;
+            padding: 0;
+        }
+
+        .law-item {
+            color: var(--text-grey);
+            padding: 15px 0;
+            text-align: center;
+            cursor: pointer;
+            transition: color 0.2s;
+            font-size: 0.95rem;
+            line-height: 1.4;
+        }
+
+        .law-item:hover {
+            color: var(--primary-purple);
+        }
+
+        .back-btn {
+            background-color: var(--primary-purple);
+            color: white;
+            border: none;
+            padding: 12px 60px;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 1rem;
+            margin-top: 30px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .footer-hint {
+            color: var(--text-grey);
+            font-size: 0.8rem;
+            margin-top: 25px;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="header-accent"></div>
+
+    <div class="logo-container">
+        <img src="{{ url_for('static', filename='images/women_group_cartoon.svg') }}" alt="Women & Law Logo">
+    </div>
+
+    <h2>Basic Laws for Women!</h2>
+
+    <div class="laws-list">
+        <div class="law-item">1 The Prohibition of Child Marriage Act, 2006</div>
+        <div class="law-item">2 Special Marriage Act, 1954</div>
+        <div class="law-item">3 Dowry Prohibition Act, 1961</div>
+        <div class="law-item">4 Indian Divorce Act, 1969</div>
+        <div class="law-item">5 Maternity Benefit Act, 1861</div>
+        <div class="law-item">6 Medical Termination of Pregnancy Act, 1971</div>
+    </div>
+
+    <a href="{{ url_for('dashboard') }}" class="back-btn">Back to Home</a>
+
+    <p class="footer-hint">click on particular law to know more</p>
+
+    <script src="/static/pwa.js"></script>
+</body>
+</html>

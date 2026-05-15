@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="manifest" href="/manifest.webmanifest">
+    <meta name="theme-color" content="#c2185b">
+    <link rel="apple-touch-icon" href="/static/icons/icon-192.svg">
+    <title>SOS Emergency</title>
+    <style>
+        :root {
+            --primary-purple: #6200EE;
+            --bg-accent: #E0E0FF;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background-color: #f0f0f0;
+            overflow-x: hidden;
+            padding: 16px 16px 24px;
+            box-sizing: border-box;
+        }
+
+        /* The decorative circle in the top left */
+        .header-accent {
+            position: absolute;
+            top: -50px;
+            left: -50px;
+            width: 300px;
+            height: 300px;
+            background-color: var(--bg-accent);
+            border-radius: 50%;
+            z-index: -1;
+        }
+
+        .container {
+            text-align: center;
+            padding: 32px 16px 16px;
+            width: min(100%, 420px);
+            box-sizing: border-box;
+        }
+
+        .top-actions {
+            position: fixed;
+            top: 12px;
+            right: 12px;
+            z-index: 5;
+        }
+
+        .back-btn {
+            display: inline-block;
+            background: #ffffff;
+            color: var(--primary-purple);
+            border: 1px solid var(--primary-purple);
+            border-radius: 20px;
+            padding: 8px 14px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 700;
+        }
+
+        h1 {
+            color: #757575;
+            font-weight: 400;
+            font-size: 2.5rem;
+            margin-bottom: 40px;
+            line-height: 1.2;
+        }
+
+        .btn {
+            display: block;
+            width: 100%;
+            max-width: 320px;
+            min-height: 56px;
+            padding: 16px 18px;
+            margin: 14px auto;
+            background-color: var(--primary-purple);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            text-decoration: none;
+            transition: background 0.3s;
+        }
+
+        .btn:active {
+            background-color: #3700B3;
+            transform: translateY(2px);
+        }
+
+        @media (max-width: 640px) {
+            .header-accent {
+                width: 220px;
+                height: 220px;
+                top: -70px;
+                left: -70px;
+            }
+
+            h1 {
+                font-size: 2rem;
+                margin-bottom: 28px;
+            }
+
+            .container {
+                padding-top: 48px;
+            }
+
+            .top-actions {
+                top: 10px;
+                right: 10px;
+            }
+
+            .back-btn {
+                padding: 10px 14px;
+                font-size: 0.82rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header-accent"></div>
+
+    <div class="top-actions">
+        <a class="back-btn" href="{{ url_for('dashboard') }}">Back to Home</a>
+    </div>
+    
+    <div class="container">
+        <h1>Send SOS in<br>Emergency</h1>
+        
+        <form action="/start" method="post">
+            <button class="btn">START SMS ALERTS</button>
+        </form>
+        
+        <form action="/stop" method="post">
+            <button class="btn">STOP SMS ALERTS</button>
+        </form>
+    </div>
+    <script src="/static/pwa.js"></script>
+</body>
+</html>

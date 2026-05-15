@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="manifest" href="/manifest.webmanifest">
+    <meta name="theme-color" content="#c2185b">
+    <link rel="apple-touch-icon" href="/static/icons/icon-192.svg">
+    <title>Incident Report Sent</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(180deg, #fff8fb 0%, #ffffff 70%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+            box-sizing: border-box;
+        }
+
+        .card {
+            max-width: 760px;
+            width: 100%;
+            background: white;
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+            border: 1px solid #f1d7e4;
+        }
+
+        h1 {
+            margin: 0 0 10px 0;
+            color: #c2185b;
+        }
+
+        p {
+            color: #444;
+            line-height: 1.55;
+        }
+
+        .btn {
+            display: inline-block;
+            margin-top: 16px;
+            padding: 12px 18px;
+            border-radius: 14px;
+            background: #c2185b;
+            color: white;
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        .meta {
+            margin-top: 16px;
+            padding: 14px;
+            border-radius: 14px;
+            background: #fafafa;
+            border: 1px solid #eee;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>Incident report sent</h1>
+        <p>Your voluntary report has been emailed to the police department.</p>
+        <div class="meta">
+            <strong>Victim:</strong> {{ victim_name }}<br>
+            <strong>Incident type:</strong> {{ incident_type }}<br>
+            <strong>Police department email:</strong> {{ police_department_email }}
+            {% if police %}
+            <br><strong>Nearest police station:</strong> {{ police.name }}
+            {% endif %}
+            {% if google_maps_link %}
+            <br><strong>Location link:</strong> <a href="{{ google_maps_link }}" target="_blank" rel="noopener noreferrer">Open Google Maps</a>
+            {% endif %}
+        </div>
+        <a class="btn" href="{{ url_for('dashboard') }}">Back to Home</a>
+    </div>
+
+    <script src="/static/pwa.js"></script>
+</body>
+</html>

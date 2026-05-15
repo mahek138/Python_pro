@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="manifest" href="/manifest.webmanifest">
+    <meta name="theme-color" content="#c2185b">
+    <link rel="apple-touch-icon" href="/static/icons/icon-192.svg">
+    <title>Self Defense Techniques</title>
+    <style>
+        :root {
+            --bg-accent: #E0E0FF;
+            --text-grey: #626262;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #ffffff;
+            min-height: 100vh;
+        }
+
+        /* Consistent corner accent */
+        .header-accent {
+            position: absolute;
+            top: -40px;
+            left: -40px;
+            width: 220px;
+            height: 220px;
+            background-color: var(--bg-accent);
+            border-radius: 50%;
+            z-index: -1;
+        }
+
+        .content-wrapper {
+            margin-top: 120px;
+            width: 90%;
+            max-width: 600px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .top-actions {
+            position: fixed;
+            top: 12px;
+            right: 12px;
+            z-index: 5;
+        }
+
+        .back-btn {
+            display: inline-block;
+            background: #ffffff;
+            color: #6200EE;
+            border: 1px solid #6200EE;
+            border-radius: 20px;
+            padding: 8px 14px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 700;
+        }
+
+        /* Video Container */
+        .video-box {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            background-color: #000;
+            border-radius: 4px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            overflow: hidden;
+            position: relative;
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .caption {
+            margin-top: 20px;
+            color: var(--text-grey);
+            font-size: 0.95rem;
+            font-style: italic;
+            text-align: center;
+        }
+
+        .figure-title {
+            margin-top: 50px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .tips-box {
+            width: 100%;
+            margin-top: 24px;
+            background: #f7f5ff;
+            border: 1px solid #e5dcff;
+            border-radius: 10px;
+            padding: 16px;
+            box-sizing: border-box;
+        }
+
+        .tips-box h3 {
+            margin: 0 0 10px 0;
+            color: #3f2d77;
+            font-size: 1rem;
+        }
+
+        .tips-box ul {
+            margin: 0;
+            padding-left: 18px;
+            color: #474747;
+            line-height: 1.5;
+            font-size: 0.95rem;
+        }
+
+        .notify-box {
+            width: 100%;
+            margin-top: 18px;
+            background: #ffffff;
+            border: 1px solid #d9d9d9;
+            border-radius: 10px;
+            padding: 14px;
+            box-sizing: border-box;
+        }
+
+        .notify-box h3 {
+            margin: 0 0 10px 0;
+            color: #3f2d77;
+            font-size: 1rem;
+        }
+
+        .notify-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        .notify-btn {
+            border: none;
+            background: #6200EE;
+            color: #fff;
+            border-radius: 8px;
+            padding: 9px 12px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .notify-time {
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 8px 10px;
+            font-size: 0.92rem;
+        }
+
+        .notify-status {
+            margin-top: 8px;
+            color: #555;
+            font-size: 0.88rem;
+        }
+
+        .video-link {
+            margin-top: 12px;
+            display: inline-block;
+            background: #d32f2f;
+            color: #fff;
+            text-decoration: none;
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .video-link:hover {
+            background: #b71c1c;
+        }
+
+        .playlist {
+            width: 100%;
+            margin-top: 18px;
+            display: grid;
+            gap: 10px;
+        }
+
+        .playlist-item {
+            background: #ffffff;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .playlist-item.active {
+            border-color: #6200EE;
+            background: #f4eeff;
+        }
+
+        .playlist-title {
+            margin: 0;
+            color: #2f2f2f;
+            font-size: 0.92rem;
+            font-weight: 600;
+        }
+
+        .playlist-action {
+            color: #6200EE;
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="header-accent"></div>
+
+    <div class="top-actions">
+        <a class="back-btn" href="{{ url_for('dashboard') }}">Back to Home</a>
+    </div>
+
+    <div class="content-wrapper">
+        <div class="video-box">
+            <iframe
+                src="{{ safety_video_url }}"
+                title="Women's safety and self defense tips"
+                loading="eager"
+                referrerpolicy="strict-origin-when-cross-origin"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen>
+            </iframe>
+        </div>
+
+        <p class="caption">Latest uploads from selected self-defense channels are shown in-app.</p>
+        <a class="video-link" href="{{ safety_watch_url }}" target="_blank" rel="noopener noreferrer">Open Channel Videos</a>
+
+        <div class="playlist">
+            {% for channel in safety_channels %}
+                <div class="playlist-item {% if channel.id == selected_channel_id %}active{% endif %}">
+                    <p class="playlist-title">{{ channel.title }} ({{ channel.language.title() }})</p>
+                    {% if channel.id == selected_channel_id %}
+                        <span class="playlist-action">Playing</span>
+                    {% else %}
+                        <a class="playlist-action" href="{{ url_for('self_defense', q=channel.id, lang=selected_language) }}">Play in app</a>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="tips-box">
+            <h3>Quick Safety Tips</h3>
+            <ul>
+                <li>Share your live location with a trusted contact when traveling alone.</li>
+                <li>Keep your emergency contacts updated in this app.</li>
+                <li>Trust your instincts and move to crowded, well-lit places when unsafe.</li>
+                <li>Use your SOS panic button immediately in emergencies.</li>
+            </ul>
+        </div>
+
+        <div class="notify-box">
+            <h3>Safety Notifications</h3>
+            <div>Get notified when a new self-defense video is uploaded and receive daily safety pings in the morning and evening.</div>
+            <div class="notify-actions">
+                <button class="notify-btn" id="enableAllNotificationsBtn" type="button">Enable Notifications + Morning & Evening Pings</button>
+            </div>
+
+            <div class="notify-status">Daily ping times: 08:00 AM and 06:00 PM</div>
+
+            <div id="notifyStatus" class="notify-status">Notification status: not enabled</div>
+            {% if not youtube_channel_configured %}
+                <div class="notify-status">Upload alerts need YOUTUBE_CHANNEL_ID in .env.</div>
+            {% endif %}
+        </div>
+
+      
+    </div>
+
+    <script>
+        (function syncLanguageFilterFromAppSetup() {
+            const url = new URL(window.location.href);
+            const langInUrl = url.searchParams.get('lang');
+            if (langInUrl) return;
+
+            const appLanguage = (localStorage.getItem('appLanguage') || 'en').toLowerCase();
+            const appToVideoLanguage = {
+                en: 'english',
+                hi: 'hindi',
+                mr: 'marathi',
+            };
+
+            const resolved = appToVideoLanguage[appLanguage] || 'english';
+            url.searchParams.set('lang', resolved);
+            window.location.replace(url.toString());
+        })();
+
+        const notifyStatus = document.getElementById('notifyStatus');
+        const enableAllNotificationsBtn = document.getElementById('enableAllNotificationsBtn');
+        const uploadAlertEnabled = {{ 'true' if youtube_channel_configured else 'false' }};
+
+        const MORNING_TIME = { hour: 8, minute: 0 };
+        const EVENING_TIME = { hour: 18, minute: 0 };
+        const SAFETY_PING_FLAG_KEY = 'safetyPingsEnabled';
+        const SAFETY_ALL_ALERTS_KEY = 'safetyAllAlertsEnabled';
+
+        let uploadPollTimer = null;
+        let reminderTickTimer = null;
+
+        function setStatus(text) {
+            notifyStatus.textContent = text;
+        }
+
+        async function ensureNotificationPermission() {
+            if (!window.isSecureContext && location.hostname !== 'localhost' && location.hostname !== '127.0.0.1') {
+                setStatus('Notifications require HTTPS (or localhost).');
+                return false;
+            }
+
+            if (!('Notification' in window)) {
+                setStatus('This browser does not support notifications.');
+                return false;
+            }
+
+            if (Notification.permission === 'granted') {
+                return true;
+            }
+
+            const permission = await Notification.requestPermission();
+            if (permission === 'granted') {
+                return true;
+            }
+
+            setStatus('Notification permission denied. Enable it in browser settings.');
+            return false;
+        }
+
+        function notifyNow(title, body, url) {
+            if (!('Notification' in window) || Notification.permission !== 'granted') return;
+            const n = new Notification(title, { body });
+            if (url) {
+                n.onclick = () => window.open(url, '_blank');
+            }
+        }
+
+        async function checkLatestUpload() {
+            if (!uploadAlertEnabled) {
+                setStatus('Upload alerts are disabled. Add YOUTUBE_CHANNEL_ID in .env.');
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/youtube-latest');
+                const data = await response.json();
+
+                if (data.status !== 'success' || !data.latest_video) return;
+
+                const latestVideoId = data.latest_video.video_id;
+                const storageKey = 'lastKnownYouTubeVideoId';
+                const previousVideoId = localStorage.getItem(storageKey);
+
+                if (!previousVideoId) {
+                    localStorage.setItem(storageKey, latestVideoId);
+                    setStatus('Upload alert is active. Checking every 10 minutes.');
+                    return;
+                }
+
+                if (previousVideoId !== latestVideoId) {
+                    localStorage.setItem(storageKey, latestVideoId);
+                    notifyNow('New Self-Defense Video Uploaded', data.latest_video.title, data.latest_video.watch_url);
+                    setStatus('New video alert delivered.');
+                }
+            } catch (error) {
+                console.log('Upload check failed:', error);
+                setStatus('Upload check failed. Will retry automatically.');
+            }
+        }
+
+        function startUploadAlerts() {
+            if (uploadPollTimer) {
+                clearInterval(uploadPollTimer);
+                uploadPollTimer = null;
+            }
+
+            checkLatestUpload();
+            uploadPollTimer = setInterval(checkLatestUpload, 10 * 60 * 1000);
+            setStatus('Upload alert is active.');
+        }
+
+        function nextRunText(hour, minute) {
+            const now = new Date();
+            const next = new Date();
+            next.setHours(hour, minute, 0, 0);
+            if (next <= now) {
+                next.setDate(next.getDate() + 1);
+            }
+            return next.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        }
+
+        function currentDateKey() {
+            const d = new Date();
+            return `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
+        }
+
+        function maybeSendScheduledPing(label, hour, minute, storageKey) {
+            const now = new Date();
+            if (now.getHours() !== hour || now.getMinutes() !== minute) return;
+
+            const today = currentDateKey();
+            const alreadySent = localStorage.getItem(storageKey) === today;
+            if (alreadySent) return;
+
+            localStorage.setItem(storageKey, today);
+            notifyNow('Safety Reminder', `It is ${label} check-in time. Stay alert and keep emergency contacts ready.`);
+            setStatus(`${label} reminder delivered.`);
+        }
+
+        function runPingCycle() {
+            maybeSendScheduledPing('Morning', MORNING_TIME.hour, MORNING_TIME.minute, 'safetyPingSentMorning');
+            maybeSendScheduledPing('Evening', EVENING_TIME.hour, EVENING_TIME.minute, 'safetyPingSentEvening');
+        }
+
+        function startSafetyPingScheduler() {
+            if (reminderTickTimer) {
+                clearInterval(reminderTickTimer);
+                reminderTickTimer = null;
+            }
+
+            runPingCycle();
+            reminderTickTimer = setInterval(runPingCycle, 30 * 1000);
+            const nextMorning = nextRunText(MORNING_TIME.hour, MORNING_TIME.minute);
+            const nextEvening = nextRunText(EVENING_TIME.hour, EVENING_TIME.minute);
+            setStatus(`Morning and evening pings are active. Next: ${nextMorning} and ${nextEvening}. Keep app open for automatic ping.`);
+        }
+
+        enableAllNotificationsBtn.addEventListener('click', async () => {
+            const granted = await ensureNotificationPermission();
+            if (!granted) return;
+
+            localStorage.setItem(SAFETY_ALL_ALERTS_KEY, 'true');
+            localStorage.setItem(SAFETY_PING_FLAG_KEY, 'true');
+
+            notifyNow(
+                'Safety Notifications Enabled',
+                'You will receive new upload alerts and daily safety pings at 08:00 AM and 06:00 PM.'
+            );
+
+            if (uploadAlertEnabled) {
+                startUploadAlerts();
+            } else {
+                setStatus('Notifications enabled. Daily pings are active. Upload alerts need YOUTUBE_CHANNEL_ID in .env.');
+            }
+            startSafetyPingScheduler();
+        });
+
+        window.addEventListener('load', async () => {
+            const granted = Notification.permission === 'granted';
+            const allAlertsEnabled = localStorage.getItem(SAFETY_ALL_ALERTS_KEY) === 'true';
+
+            if (granted && allAlertsEnabled && uploadAlertEnabled) {
+                startUploadAlerts();
+            }
+
+            const pingsEnabled = localStorage.getItem(SAFETY_PING_FLAG_KEY) === 'true';
+            if (granted && allAlertsEnabled && pingsEnabled) {
+                startSafetyPingScheduler();
+            }
+
+            if (!granted) {
+                setStatus('Tap Enable Notifications first.');
+            }
+        });
+    </script>
+    <script src="/static/pwa.js?v={{ asset_version }}"></script>
+</body>
+</html>

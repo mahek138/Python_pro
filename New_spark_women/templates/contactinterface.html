@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="manifest" href="/manifest.webmanifest">
+    <meta name="theme-color" content="#c2185b">
+    <link rel="apple-touch-icon" href="/static/icons/icon-192.svg">
+    <title>Emergency SOS</title>
+    <style>
+        :root {
+            --primary-purple: #6200EE;
+            --light-purple: #E0D7FF;
+            --text-gray: #757575;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #fff;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Top decorative circle */
+        .header-bg {
+            position: absolute;
+            top: -50px;
+            left: -50px;
+            width: 150px;
+            height: 150px;
+            background-color: var(--light-purple);
+            border-radius: 50%;
+            z-index: -1;
+        }
+
+        .container {
+            padding: 72px 20px 20px;
+            flex-grow: 1;
+        }
+
+        .top-actions {
+            display: flex;
+            justify-content: flex-end;
+            padding: 16px 20px 0 20px;
+        }
+
+        .back-btn {
+            display: inline-block;
+            background: #ffffff;
+            color: var(--primary-purple);
+            border: 1px solid var(--primary-purple);
+            border-radius: 20px;
+            padding: 8px 14px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 700;
+        }
+
+        .contacts-list {
+            color: var(--text-gray);
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 40px;
+        }
+
+        .sos-label {
+            color: var(--text-gray);
+            margin-bottom: 100px;
+        }
+
+        .saved-list {
+            margin-top: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .saved-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            background: #faf7ff;
+            border: 1px solid #e9defd;
+            padding: 12px 12px;
+            border-radius: 8px;
+            flex-wrap: wrap;
+        }
+
+        .saved-item form {
+            margin: 0;
+        }
+
+        .remove-btn {
+            background: #e53935;
+            padding: 10px 14px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            min-height: 40px;
+        }
+
+        .footer-section {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .call-info {
+            color: var(--text-gray);
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+        }
+
+        .phone-display {
+            font-size: 1.2rem;
+            color: var(--text-gray);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 40px;
+            border-top: 1px solid #eee;
+            padding-top: 20px;
+        }
+
+        input[type="text"] {
+            flex-grow: 1;
+            border: none;
+            border-bottom: 1px solid #000;
+            padding: 12px;
+            font-size: 1rem;
+            outline: none;
+            min-width: 0;
+        }
+
+        button {
+            background-color: var(--primary-purple);
+            color: white;
+            border: none;
+            padding: 12px 22px;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+            letter-spacing: 1px;
+            min-height: 48px;
+        }
+
+
+        @media (max-width: 640px) {
+            .container {
+                padding: 68px 14px 14px;
+            }
+
+            .top-actions {
+                padding: 12px 12px 0 12px;
+            }
+
+            .back-btn {
+                padding: 10px 12px;
+                font-size: 0.82rem;
+            }
+
+            .contacts-list {
+                font-size: 1rem;
+                line-height: 1.5;
+                margin-bottom: 28px;
+            }
+
+            .sos-label {
+                margin-bottom: 44px;
+            }
+
+            .input-group {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            button {
+                width: 100%;
+            }
+
+            .phone-display {
+                font-size: 1rem;
+            }
+
+            #police-station-info {
+                margin-top: 14px !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header-bg"></div>
+
+    <div class="top-actions">
+        <a class="back-btn" href="{{ url_for('dashboard') }}">Back to Home</a>
+    </div>
+
+    <div class="container">
+        <div class="contacts-list">
+            Emergency Contacts :<br>
+            Police : 100<br>
+            Ambulance : 101<br>
+            Fire brigade : 102
+        </div>
+
+        <div style="font-size: 0.85rem; color: #666; margin-bottom: 14px; line-height: 1.4;">
+            Alerts are sent to all saved contacts from this app flow.
+        </div>
+
+        <div class="sos-label">
+            <div>Saved SOS contacts:</div>
+            {% if saved_numbers %}
+                <div class="saved-list">
+                    {% for number in saved_numbers %}
+                        <div class="saved-item">
+                            <span>{{ number }}</span>
+                            <form action="/remove-number" method="POST">
+                                <input type="hidden" name="number" value="{{ number }}">
+                                <button type="submit" class="remove-btn">REMOVE</button>
+                            </form>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div>None yet</div>
+            {% endif %}
+        </div>
+
+        <div id="police-station-info" style="background: #f0f0f0; padding: 15px; border-radius: 8px; margin-top: 20px; text-align: left;">
+            <p style="margin: 0 0 10px 0; font-weight: bold; color: var(--primary-purple);">📍 Nearest Police Station:</p>
+            <p id="police-info" style="color: var(--text-gray); margin: 5px 0;">Loading...</p>
+        </div>
+    </div>
+
+    <div class="footer-section">
+        <div class="call-info">Call will be placed to following number :</div>
+        <div class="phone-display">
+            {{ saved_numbers[0] if saved_numbers else 'No saved number' }}
+            <span style="color:var(--primary-purple); cursor:pointer;">✎</span>
+        </div>
+
+        <form action="/add-number" method="POST" class="input-group">
+            <input type="text" name="number" placeholder="Number (10 digits or +countrycode)" required>
+            <button type="submit">ADD</button>
+        </form>
+    </div>
+
+    <script>
+        // Fetch and display nearest police station
+        function loadNearestPoliceStation() {
+            fetch("{{ url_for('nearest_police') }}")
+                .then(r => r.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        const police = data.police;
+                        document.getElementById('police-info').innerHTML = `
+                            <strong>${police['name']}</strong><br>
+                            Phone: <a href="tel:${police['phone'].replace('+', '')}" style="color: var(--primary-purple); text-decoration: none;">${police['phone']}</a><br>
+                            Coordinates: ${police['lat'].toFixed(4)}, ${police['lon'].toFixed(4)}
+                        `;
+                    } else {
+                        document.getElementById('police-info').textContent = data.message || 'Unable to find police station';
+                    }
+                })
+                .catch(err => {
+                    document.getElementById('police-info').textContent = 'Error loading police station info';
+                    console.log(err);
+                });
+        }
+
+        // Load on page load
+        window.addEventListener('load', loadNearestPoliceStation);
+
+        // Refresh every 60 seconds
+        setInterval(loadNearestPoliceStation, 60000);
+    </script>
+    <script src="/static/pwa.js"></script>
+
+</body>
+</html>

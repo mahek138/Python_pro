@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="manifest" href="/manifest.webmanifest">
+    <meta name="theme-color" content="#c2185b">
+    <link rel="apple-touch-icon" href="/static/icons/icon-192.svg">
+    <title>Login Page</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #4facfe 0%, #a29bfe 50%, #6c5ce7 100%);
+        }
+
+        .login-card {
+            background: white;
+            padding: 40px 30px;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            width: 350px;
+            text-align: center;
+        }
+
+        h1 {
+            margin-bottom: 40px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .input-group {
+            margin-bottom: 25px;
+        }
+
+        input {
+            width: 100%;
+            border: none;
+            border-bottom: 2px solid #ddd;
+            padding: 10px 5px;
+            outline: none;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        input:focus {
+            border-bottom: 2px solid #6c5ce7;
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            background: linear-gradient(to right, #4facfe, #8e44ad);
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .footer-links {
+            margin-top: 25px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        #installAppBtn {
+            display: none;
+            margin-top: 14px;
+            border: none;
+            border-radius: 20px;
+            padding: 10px 14px;
+            font-size: 13px;
+            font-weight: 700;
+            color: white;
+            background: linear-gradient(to right, #d81b60, #7b1fa2);
+            cursor: pointer;
+        }
+
+        .footer-links a {
+            text-decoration: none;
+            color: #2980b9;
+            font-weight: bold;
+        }
+
+        .error {
+            color: #d32f2f;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+    </style>
+
+</head>
+<body>
+    <div class="container">
+        <div class="login-card">
+            <h1>Login</h1>
+            <form action="/login" method="POST">
+                <div class="input-group"> 
+                    <input type="email" name="email" placeholder="Email" required>
+                </div>
+                <div class="input-group">
+                    <input type="password" name="password" placeholder="Password" required>
+                </div>
+                <button type="submit" class="btn-login">Login</button>
+                {% if error_message %}
+                    <p class="error">{{ error_message }}</p>
+                {% endif %}
+            </form>
+            <div class="footer-links">
+                <p>Forgot <a href="{{ url_for('forgot_password_page') }}">Password?</a></p>
+                <p>Don't have an account? <a href="{{ url_for('signup_page') }}">Sign up</a></p>
+                <button id="installAppBtn" type="button">Install App</button>
+            </div>
+        </div>
+    </div>
+    <script src="/static/pwa.js"></script>
+</body>
+</html>

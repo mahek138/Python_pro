@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 360" role="img" aria-label="Women group cartoon illustration">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ffe8f3"/>
+      <stop offset="100%" stop-color="#f3e8ff"/>
+    </linearGradient>
+  </defs>
+
+  <rect x="0" y="0" width="480" height="360" fill="url(#bg)"/>
+
+  <ellipse cx="240" cy="320" rx="150" ry="20" fill="#e6d7f7"/>
+
+  <g transform="translate(55,60)">
+    <g transform="translate(0,0)">
+      <circle cx="70" cy="55" r="32" fill="#f8c7a5"/>
+      <path d="M38 53c0-23 14-40 32-40 19 0 33 17 33 40v3H38z" fill="#2f2f6f"/>
+      <rect x="35" y="92" width="70" height="88" rx="24" fill="#6a7dff"/>
+      <path d="M35 126l-18 44h20l12-31z" fill="#f8c7a5"/>
+      <path d="M105 126l18 44h-20l-12-31z" fill="#f8c7a5"/>
+    </g>
+
+    <g transform="translate(118,-4)">
+      <circle cx="70" cy="55" r="34" fill="#f6bf9b"/>
+      <path d="M32 58c0-26 16-46 38-46s38 20 38 46v4H32z" fill="#5d2d7b"/>
+      <rect x="28" y="94" width="84" height="96" rx="28" fill="#ef5b9c"/>
+      <path d="M28 131l-20 46h21l14-32z" fill="#f6bf9b"/>
+      <path d="M112 131l20 46h-21l-14-32z" fill="#f6bf9b"/>
+      <circle cx="70" cy="130" r="9" fill="#ffffff"/>
+      <path d="M70 122v16M62 130h16" stroke="#ef5b9c" stroke-width="3" stroke-linecap="round"/>
+    </g>
+
+    <g transform="translate(254,4)">
+      <circle cx="70" cy="55" r="31" fill="#f7c5a1"/>
+      <path d="M38 56c0-24 14-42 32-42 19 0 33 18 33 42v3H38z" fill="#2e6b5c"/>
+      <rect x="34" y="92" width="72" height="88" rx="24" fill="#54c0a9"/>
+      <path d="M34 127l-19 42h20l13-30z" fill="#f7c5a1"/>
+      <path d="M106 127l19 42h-20l-13-30z" fill="#f7c5a1"/>
+    </g>
+  </g>
+</svg>

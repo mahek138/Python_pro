@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="manifest" href="/manifest.webmanifest">
+<meta name="theme-color" content="#c2185b">
+<link rel="apple-touch-icon" href="/static/icons/icon-192.svg">
+<title>Spark Women</title>
+
+<style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #f2f2f2;
+        text-align: center;
+    }
+
+    .header {
+        background: linear-gradient(to bottom, #6a00f4, #c0005b);
+        color: blue;
+        padding: 30px 0 24px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.18);
+    }
+
+    .header h1 {
+        margin: 0;
+        font-size: 40px;
+        font-family: cursive;
+        line-height: 1.1;
+    }
+
+    .header p {
+        margin: 4px 0 0;
+        opacity: 0.9;
+    }
+
+    .note {
+        color: #6a6a6a;
+        margin: 14px 0;
+        font-size: 14px;
+    }
+
+    .toast-wrap {
+        max-width: 760px;
+        margin: 12px auto 0;
+        padding: 0 18px;
+    }
+
+    .toast {
+        border-radius: 10px;
+        padding: 10px 14px;
+        margin-bottom: 8px;
+        text-align: left;
+        font-size: 14px;
+        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12);
+    }
+
+    .toast.success {
+        background: #e8f7ee;
+        color: #1b5e3a;
+        border: 1px solid #96d5ad;
+    }
+
+    .toast.error {
+        background: #fdeaea;
+        color: #9f2a2a;
+        border: 1px solid #efb0b0;
+    }
+
+    .container {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 30px;
+        padding: 30px;
+        max-width: 760px;
+        margin: 0 auto;
+    }
+
+    .circle-link {
+        text-decoration: none;
+        color: inherit;
+    }
+
+    .circle {
+        width: 160px;
+        height: 160px;
+        margin: auto;
+        border-radius: 50%;
+        background: #b57edc;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        cursor: pointer;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .circle:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 20px rgba(0, 0, 0, 0.25);
+    }
+
+    .circle img {
+        width: 62px;
+        height: 62px;
+        margin-bottom: 10px;
+    }
+
+    .circle p {
+        margin: 0;
+        color: #333;
+        font-weight: bold;
+        font-size: 16px;
+    }
+
+    .actions {
+        margin-top: 6px;
+        margin-bottom: 30px;
+        padding: 0 18px;
+    }
+
+    .btn {
+        background: #ff5fa2;
+        border: none;
+        padding: 12px 30px;
+        margin: 10px;
+        border-radius: 25px;
+        color: white;
+        font-size: 1rem;
+        font-weight: bold;
+        cursor: pointer;
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+        text-decoration: none;
+        display: inline-block;
+    }
+
+    #installAppBtn {
+        display: none;
+        background: linear-gradient(135deg, #d81b60, #6a1b9a);
+    }
+
+    .panic {
+        width: 220px;
+        background: linear-gradient(135deg, #f54477, #ff2663);
+    }
+
+
+    .panic-wrap {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .panic.is-pressing {
+        filter: brightness(1.08);
+        box-shadow: 0 0 0 4px rgba(255, 38, 99, 0.2);
+    }
+
+    .panic-hint {
+        font-size: 12px;
+        color: #8a5a73;
+        font-weight: 600;
+    }
+
+    @media (max-width: 640px) {
+        .header {
+            padding: 22px 0 20px;
+        }
+
+        .header h1 {
+            font-size: 30px;
+        }
+
+        .header p {
+            font-size: 0.92rem;
+            padding: 0 12px;
+        }
+
+        .note {
+            margin: 12px 0 8px;
+        }
+
+        .container {
+            grid-template-columns: 1fr;
+            gap: 16px;
+            padding: 16px 14px 10px;
+        }
+
+        .circle {
+            width: 100%;
+            max-width: 220px;
+            height: 150px;
+            border-radius: 24px;
+            flex-direction: row;
+            gap: 14px;
+            padding: 0 18px;
+            justify-content: flex-start;
+        }
+
+        .circle img {
+            width: 56px;
+            height: 56px;
+            margin-bottom: 0;
+        }
+
+        .circle p {
+            text-align: left;
+            font-size: 15px;
+        }
+
+        .btn {
+            width: calc(100% - 24px);
+            max-width: 360px;
+        }
+
+        .panic {
+            width: calc(100% - 24px);
+            max-width: 360px;
+        }
+    }
+</style>
+</head>
+
+<body>
+
+<div class="header">
+    <h1>Spark Women</h1>
+    <p>Classic dashboard with your current live safety features</p>
+</div>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <div class="toast-wrap">
+            {% for category, message in messages %}
+                <div class="toast {{ category }}">{{ message }}</div>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endwith %}
+
+<p class="note">Tap any circle to open the feature.</p>
+
+<div class="container">
+    <a class="circle-link" href="{{ url_for('contact_interface') }}">
+        <div class="circle">
+            <img src="https://cdn-icons-png.flaticon.com/512/1946/1946429.png" alt="Contact">
+            <p>Contact</p>
+        </div>
+    </a>
+
+    <a class="circle-link" href="{{ url_for('incident_report') }}">
+        <div class="circle">
+            <img src="https://cdn-icons-png.flaticon.com/512/2920/2920329.png" alt="Incident Report">
+            <p>Incident Report</p>
+        </div>
+    </a>
+
+    <a class="circle-link" href="{{ url_for('laws_page') }}">
+        <div class="circle">
+            <img src="https://cdn-icons-png.flaticon.com/512/1048/1048949.png" alt="Basic Laws">
+            <p>Basic Laws</p>
+        </div>
+    </a>
+
+    <a class="circle-link" href="{{ url_for('self_defense') }}">
+        <div class="circle">
+            <img src="https://cdn-icons-png.flaticon.com/512/2966/2966480.png" alt="Self Defence">
+            <p>Self Defence</p>
+        </div>
+    </a>
+</div>
+
+<div class="actions">
+    <a class="btn" href="{{ url_for('home') }}">EXIT</a>
+    <button class="btn" id="installAppBtn" type="button">INSTALL APP</button>
+
+    <form id="panicForm" action="{{ url_for('panic_alert') }}" method="POST" style="margin-top: 8px;">
+        <div class="panic-wrap">
+            <button id="panicButton" class="btn panic" type="button" aria-label="Hold for 1 second to trigger panic">PANIC</button>
+            <div id="panicHint" class="panic-hint">Hold for 1 second to send alert</div>
+        </div>
+    </form>
+</div>
+
+<p id="location-status" style="margin-top: 20px; font-size: 14px; color: #6a6a6a;">📍 Location tracking: Initializing...</p>
+
+<script>
+    let locationCaptures = 0;
+    let locationError = null;
+    let locationPollTimer = null;
+    let panicTimer = null;
+    let panicTriggered = false;
+
+    const PRIMARY_LOCATION_OPTIONS = { enableHighAccuracy: true, timeout: 12000, maximumAge: 0 };
+    const FALLBACK_LOCATION_OPTIONS = { enableHighAccuracy: false, timeout: 25000, maximumAge: 120000 };
+
+    const panicButton = document.getElementById('panicButton');
+    const panicForm = document.getElementById('panicForm');
+    const panicHint = document.getElementById('panicHint');
+
+    function startPanicHold() {
+        if (!panicButton || panicTimer) return;
+        panicTriggered = false;
+        panicButton.classList.add('is-pressing');
+        panicHint.textContent = 'Keep holding...';
+
+        panicTimer = setTimeout(() => {
+            panicTriggered = true;
+            panicHint.textContent = 'Sending alert...';
+            if (window.sparkAccessibility && window.sparkAccessibility.signalAlert) {
+                window.sparkAccessibility.signalAlert('Emergency SOS is being sent now.');
+            }
+            panicForm.submit();
+        }, 1000);
+    }
+
+    function endPanicHold() {
+        if (panicTimer) {
+            clearTimeout(panicTimer);
+            panicTimer = null;
+        }
+
+        if (!panicTriggered) {
+            panicButton.classList.remove('is-pressing');
+            panicHint.textContent = 'Hold for 1 second to send alert';
+        }
+    }
+
+    panicButton.addEventListener('pointerdown', startPanicHold);
+    panicButton.addEventListener('pointerup', endPanicHold);
+    panicButton.addEventListener('pointerleave', endPanicHold);
+    panicButton.addEventListener('pointercancel', endPanicHold);
+
+    function handleLocationError(error, isRetrying) {
+        let msg = "Location permission denied";
+        if (error.code === error.POSITION_UNAVAILABLE) msg = "Location unavailable";
+        if (error.code === error.TIMEOUT) msg = "Location request timed out";
+
+        if (!isRetrying && error.code === error.TIMEOUT) {
+            updateLocationStatus("Retrying location with network mode...", false);
+            requestLocation(FALLBACK_LOCATION_OPTIONS, true);
+            return;
+        }
+
+        updateLocationStatus(msg, false);
+        locationError = error.message;
+    }
+
+    function requestLocation(options, isRetrying) {
+        navigator.geolocation.getCurrentPosition(
+            function(position) {
+                sendLocationToServer(position);
+                const accuracy = Math.round(position.coords.accuracy || 0);
+                updateLocationStatus(`Location active (accuracy ${accuracy}m)`, true);
+
+                if (!locationPollTimer) {
+                    locationPollTimer = setInterval(() => {
+                        navigator.geolocation.getCurrentPosition(
+                            sendLocationToServer,
+                            function(err) {
+                                console.log("Periodic location update failed:", err.message);
+                            },
+                            FALLBACK_LOCATION_OPTIONS
+                        );
+                    }, 30000);
+                }
+            },
+            function(error) {
+                handleLocationError(error, isRetrying);
+            },
+            options
+        );
+    }
+
+    // Initialize geolocation tracking
+    function requestLocationPermission() {
+        if (!navigator.geolocation) {
+            updateLocationStatus("Location not supported on this device.", false);
+            return;
+        }
+
+        updateLocationStatus("Requesting location...", false);
+        requestLocation(PRIMARY_LOCATION_OPTIONS, false);
+    }
+
+    function sendLocationToServer(position) {
+        const latitude = position.coords.latitude;
+        const longitude = position.coords.longitude;
+        const accuracy = position.coords.accuracy;
+
+        fetch("{{ url_for('update_location') }}", {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({latitude, longitude, accuracy})
+        })
+        .then(r => r.json())
+        .then(data => {
+            locationCaptures++;
+            console.log(`Location captured (${locationCaptures}): ${latitude.toFixed(4)}, ${longitude.toFixed(4)}`);
+        })
+        .catch(err => console.log("Failed to send location:", err));
+    }
+
+    function updateLocationStatus(msg, active) {
+        const el = document.getElementById('location-status');
+        el.textContent = "📍 " + msg;
+        el.style.color = active ? "#28a745" : "#dc3545";
+        if (!active && window.sparkAccessibility && window.sparkAccessibility.announce) {
+            window.sparkAccessibility.announce(msg);
+        }
+    }
+
+    // Start location tracking on page load
+    window.addEventListener('load', requestLocationPermission);
+</script>
+<script src="/static/pwa.js"></script>
+
+</body>
+</html>
